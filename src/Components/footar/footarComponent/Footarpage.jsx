@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-
 export default function Footarpage() {
+  const [language, setLanguage] = useState("English");
   return (
     <>
       <div className="bg-[#3B2F4A] text-white pt-30 px-15 pb-40">
@@ -47,9 +48,9 @@ export default function Footarpage() {
                 <div
                   tabIndex={0}
                   role="button"
-                  className="btn btn-ghost border border-[#FFFFFF80]"
+                  className="btn btn-ghost border border-[#FFFFFF80] w-27.5"
                 >
-                  <p>English</p>
+                  <p>{language}</p>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={24}
@@ -71,13 +72,13 @@ export default function Footarpage() {
                   className="menu menu-sm dropdown-content  rounded-box z-1 w-28 bg-black"
                 >
                   <li>
-                    <a>Français</a>
+                    <a onClick={() => setLanguage("Français")}>Français</a>
                   </li>
                   <li>
-                    <a>English</a>
+                    <a onClick={() => setLanguage("English")}>English</a>
                   </li>
                   <li>
-                    <a>عربي</a>
+                    <a onClick={() => setLanguage("عربي")}>عربي</a>
                   </li>
                 </ul>
               </div>
