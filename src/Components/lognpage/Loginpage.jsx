@@ -2,19 +2,16 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { loginApi } from "../../API/Auth";
 export default function Loginpage() {
   const navigate = useNavigate();
   const handleSubmit = async (values) => {
-    // console.log(values);
 
     try {
-      const form = await axios.post(
-        "https://bookstore.eraasoft.pro/api/login",
-        values,
-      );
+      const form = await loginApi(values);
       console.log(form.data.data);
 
-      //   navigate("/");
+        navigate("/");
     } catch (error) {
       console.log(error);
     }

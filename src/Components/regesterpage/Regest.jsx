@@ -2,20 +2,19 @@ import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { registerApi } from "../../API/Auth";
 
 export default function Regest() {
   const navigate = useNavigate();
+  // registerApi
   const handleSubmit = async (values) => {
     try {
-      const form = await axios.post(
-        "https://bookstore.eraasoft.pro/api/register",
-        values,
-      );
+      const form = await registerApi( values);
       console.log(values.data);
 
       navigate("/");
     } catch (error) {
-      console.log("error");
+      console.log(error.response?.data || error.message);
     }
   };
   const registerschema = Yup.object({

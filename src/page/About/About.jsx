@@ -1,9 +1,16 @@
 import React from 'react'
+import Aboutimg from '../../Components/aboutpage/Aboutimg'
+import Feature from '../../Components/homepage/Feature'
+import Mission from '../../Components/aboutpage/Mission'
+import Message from '../../Components/aboutpage/Message'
 
 export default function About() {
   return (
-    <div>
-      
-    </div>
+    <>
+      <Aboutimg />
+      <Mission />
+      <Message />
+      <Feature />
+    </>
   )
 }

@@ -1,30 +1,43 @@
-import React from 'react'
+import React from "react";
 
 export default function Feature() {
+  const arry = [
+    {
+      img: "./public/img-1.png",
+      title: "Fast & Reliable Shipping",
+      dec: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ultricies est. Aliquam in justo varius, sagittis neque ut, malesuada leo.",
+    },
+    {
+      img: "./public/img-2.png",
+      title: "Secure Payment",
+      dec: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ultricies est. Aliquam in justo varius, sagittis neque ut, malesuada leo.",
+    },
+    {
+      img: "./public/img-3.png",
+      title: "Easy Returns",
+      dec: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ultricies est. Aliquam in justo varius, sagittis neque ut, malesuada leo.",
+    },
+    {
+      img: "./public/img-4.png",
+      title: "24/7 Customer Support",
+      dec: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ultricies est. Aliquam in justo varius, sagittis neque ut, malesuada leo.",
+    },
+  ];
   return (
     <>
-      <div className='flex py-30 pe-24.5 ps-15 gap-15.5 bg-[#F5F5F5]'>
-        <div className=''>
-            <img src="./public/img-1.png" alt="" />
-        <h2 className='pt-4 pb-2 text-[18px] font-bold'>Fast & Reliable Shipping</h2>
-        <p className=' text-[16px] font-normal text-[#22222280]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ultricies est. Aliquam in justo varius, sagittis neque ut, malesuada leo.</p>
-        </div>
-        <div>
-            <img src="./public/img-2.png" alt="" />
-        <h2 className='pt-4 pb-2 text-[18px] font-bold'>Secure Payment</h2>
-        <p className=' text-[16px] font-normal text-[#22222280]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ultricies est. Aliquam in justo varius, sagittis neque ut, malesuada leo.</p>
-        </div>
-        <div>
-            <img src="./public/img-3.png" alt="" />
-        <h2 className='pt-4 pb-2 text-[18px] font-bold'>Easy Returns</h2>
-        <p className=' text-[16px] font-normal text-[#22222280]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ultricies est. Aliquam in justo varius, sagittis neque ut, malesuada leo.</p>
-        </div>
-        <div>
-            <img src="./public/img-4.png" alt="" />
-        <h2 className='pt-4 pb-2 text-[18px] font-bold'>24/7 Customer Support</h2>
-        <p className=' text-[16px] font-normal text-[#22222280]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et ultricies est. Aliquam in justo varius, sagittis neque ut, malesuada leo.</p>
-        </div>
+      <div className="flex py-30 pe-24.5 ps-15 gap-15.5 bg-[#F5F5F5]">
+        {arry.map((el, index) => {
+          return (
+            <div key={index} className="">
+              <img src={el.img} alt="" />
+              <h2 className="pt-4 pb-2 text-[18px] font-bold">{el.title}</h2>
+              <p className=" text-[16px] font-normal text-[#22222280]">
+                {el.dec}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </>
-  )
+  );
 }

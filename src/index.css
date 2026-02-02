@@ -1,2 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+/* .bg-img{
+    background-image: url('./public/bgimg.jpg');
+} */
