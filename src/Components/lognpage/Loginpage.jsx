@@ -3,14 +3,22 @@ import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { loginApi } from "../../API/Auth";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 export default function Loginpage() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+
   const handleSubmit = async (values) => {
 
     try {
       const form = await loginApi(values);
       console.log(form.data.data);
-
+    localStorage.setItem(
+      "contactData",
+      JSON.stringify(form.data.data.user)
+    );
+    login(form.data.data);
         navigate("/");
     } catch (error) {
       console.log(error);

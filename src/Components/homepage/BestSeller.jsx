@@ -10,6 +10,7 @@ export default function BestSeller() {
     "book-6",
     "book-7",
   ];
+  const data = JSON.parse(localStorage.getItem("contactData"));
   return (
 <>
     <div className="bg-[#3B2F4A] py-30">
@@ -25,7 +26,10 @@ export default function BestSeller() {
       ))}
     </div>
     <div className="flex justify-center">
-      <button className="bg-[#D9176C] text-white py-3 px-10 rounded-[10px] text-[16px] font-semibold">Shop now</button>
+      <button onClick={(()=>{
+        console.log(data);
+        
+      })} className="bg-[#D9176C] text-white py-3 px-10 rounded-[10px] text-[16px] font-semibold">Shop now</button>
     </div>
     </div>
 </>
