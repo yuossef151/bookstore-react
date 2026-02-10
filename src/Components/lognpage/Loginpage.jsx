@@ -10,16 +10,13 @@ export default function Loginpage() {
   const { login } = useContext(AuthContext);
 
   const handleSubmit = async (values) => {
-
     try {
       const form = await loginApi(values);
       console.log(form.data.data);
-    localStorage.setItem(
-      "contactData",
-      JSON.stringify(form.data.data.user)
-    );
-    login(form.data.data);
-        navigate("/");
+      console.log(form.data.data.token);
+      localStorage.setItem("token",(form.data.data.token));
+      login(form.data.data);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -27,7 +24,7 @@ export default function Loginpage() {
 
   const schema = Yup.object({
     email: Yup.string().required().email(),
-    password: Yup.string().required()
+    password: Yup.string().required(),
   });
   return (
     <>
@@ -89,7 +86,7 @@ export default function Loginpage() {
                   />
                   <label htmlFor="checkbox">Remember me</label>
                 </div>
-                <Link className="text-[#D9176C]" to="">
+                <Link className="text-[#D9176C]" to="/Password">
                   Forget password?
                 </Link>
               </div>

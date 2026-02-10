@@ -6,6 +6,8 @@ import About from "../page/About/About";
 import Login from "../page/login/Login";
 import Regester from "../page/sign/Regester";
 import GuestRoute from "../Components/GuestRoute";
+import Profile from "../page/profile/Profile";
+import Password from "../page/Password/Password";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
       {
         path: "About",
         element: <About />,
+      },
+      {
+        path: "Profile",
+        element: <Profile />,
+      },
+      {
+        path: "Password",
+        element: <Password />,
       },
       {
         path: "login",

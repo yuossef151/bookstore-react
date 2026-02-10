@@ -1,12 +1,10 @@
-import React from 'react'
-import Footarpage from './footarComponent/Footarpage'
+import React from "react";
+import Footarpage from "./footarComponent/Footarpage";
 
 export default function Footar() {
   return (
     <>
-      <>
-<Footarpage />
-      </>
+      <Footarpage />
     </>
-  )
+  );
 }
