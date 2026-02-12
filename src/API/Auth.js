@@ -1,3 +1,4 @@
+import axios from "axios";
 import api from "./axios";
 
 export const registerApi = (data) => {
@@ -25,6 +26,7 @@ export const nowPassword = (data) => {
 export const getbooks = () => {
   return api.get("/home");
 };
+
 export const profile = () => {
   const token = localStorage.getItem("token");
   return api.get("/profile", {
@@ -34,11 +36,30 @@ export const profile = () => {
   });
 };
 export const updateprofile = (data) => {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-  return api.post("/profile/update", data , {
+  return api.post("/profile/update", data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+};
+
+// export const getbooksAPI = (page) => {
+//   return api.get(`/book?page=${page}`);
+// }; 
+
+// export const getbooksAPI = (page, config = {}) => {
+//   return axios.get(`/book?page=${page}`, {
+//     params: { page, ...config.params },
+//   });
+// };
+
+export const getbooksAPI = (page, config = {}) => {
+  return api.get('/book', {
+    params: { page, ...config.params },
+  });
+};
+export const getcategoryAPI = () => {
+  return api.get("/category");
 };

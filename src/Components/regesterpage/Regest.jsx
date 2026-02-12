@@ -50,12 +50,12 @@ export default function Regest() {
               handleSubmit(values);
             }}
           >
-            <Form className="w-140  ">
-              <div className="flex gap-6 my-6">
-                <div className="flex flex-col grow">
+            <Form className="lg:w-140 w-full px-5  ">
+              <div className="flex gap-6 my-6 w-full">
+                <div className="flex flex-col lg:grow">
                   <label htmlFor="first">First Name</label>
                   <Field
-                    className="p-4 bg-white rounded-lg mt-2 "
+                    className="p-4 bg-white w-full rounded-lg mt-2 "
                     id="first"
                     name="first_name"
                     type="text"
@@ -67,10 +67,10 @@ export default function Regest() {
                     className="text-red-600 py-2 font-semibold"
                   />
                 </div>
-                <div className="flex flex-col grow">
+                <div className="flex flex-col lg:grow">
                   <label htmlFor="last">Last Name </label>
                   <Field
-                    className="p-4 bg-white rounded-lg mt-2 "
+                    className="p-4 bg-white w-full rounded-lg mt-2 "
                     id="last"
                     name="last_name"
                     type="text"

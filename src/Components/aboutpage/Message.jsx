@@ -40,9 +40,9 @@ export default function Message() {
   ];
   return (
     <>
-      <div className=" w-full h-full pt-30 pb-29 px-43 flex justify-between gap-48 bg-[#3B2F4A] text-white">
-        <div className="w-148">
-          <h2 className="text-[40px] font-bold w-[60%] pb-4">
+      <div className=" w-full h-full lg:pt-30 lg:pb-29 py-15 lg:px-43 px-5 flex flex-col lg:flex-row lg:justify-between lg:gap-48 gap-15 bg-[#3B2F4A] text-white">
+        <div className="lg:w-148">
+          <h2 className="text-[40px] font-bold lg:w-[60%] pb-4">
             Have a Questions? Get in Touch
           </h2>
           <p>
@@ -52,13 +52,14 @@ export default function Message() {
           </p>
 
           <Formik
+          className="w-full"
             initialValues={{ name: "", email: "", message: "" }}
             validationSchema={meesageschema}
             onSubmit={(values) => {
               handleSubmit(values);
             }}
           >
-            <Form className="flex flex-col items-center pt-15">
+            <Form className="flex flex-col items-center pt-15 w-full">
               <div className="flex gap-4 w-full">
                 <Field
                   className="p-4 rounded-lg mt-2 bg-transparent border w-1/2 border-white/20"
@@ -98,11 +99,11 @@ export default function Message() {
               mt-4
             "
               />
-                              <ErrorMessage
-                                name="email"
-                                component={"p"}
-                                className="text-red-600 py-2 font-semibold"
-                              />
+              <ErrorMessage
+                name="email"
+                component={"p"}
+                className="text-red-600 py-2 font-semibold"
+              />
               <button
                 className="py-3 mt-10 text-[18px] bg-[#D9176C] text-white px-9.5 rounded-lg "
                 type="submit"
@@ -112,7 +113,7 @@ export default function Message() {
             </Form>
           </Formik>
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex  flex-col  gap-5">
           {about.map((el, endix) => {
             return (
               <div className="flex gap-4 items-center" key={endix}>

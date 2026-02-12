@@ -46,7 +46,7 @@ export default function Loginpage() {
               handleSubmit(values);
             }}
           >
-            <Form className="w-140  ">
+            <Form className="lg:w-140 w-full px-5 md:px-40 lg:px-0 ">
               <div className="flex flex-col">
                 <label htmlFor="email">Email</label>
                 <Field

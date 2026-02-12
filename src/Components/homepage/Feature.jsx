@@ -25,7 +25,7 @@ export default function Feature() {
   ];
   return (
     <>
-      <div className="flex py-30 pe-24.5 ps-15 gap-15.5 bg-[#F5F5F5]">
+      <div className="flex flex-col md:grid md:grid-cols-2 lg:flex-row lg:grid lg:grid-cols-4 py-30 lg:pe-24.5 lg:ps-15 px-5 gap-15.5 bg-[#F5F5F5]">
         {arry.map((el, index) => {
           return (
             <div key={index} className="">

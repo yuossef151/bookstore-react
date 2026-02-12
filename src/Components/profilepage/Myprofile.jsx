@@ -76,16 +76,16 @@ export default function Myprofile() {
           onSubmit={handleSubmit}
         >
           {({ values, setValues }) => (
-            <Form className=" w-190.75 mt-55 flex flex-col items-center">
+            <Form className=" lg:w-190.75 w-full mt-55 px-5 flex flex-col items-center">
               <div className="bg-white p-6 w-full rounded-lg">
                 <div className="flex gap-6 my-6">
-                  <div className="flex flex-col grow">
+                  <div className="flex flex-col  grow">
                     <label className="text-[#22222280] pb-2.5">
                       First Name
                     </label>
                     <Field
                       name="first_name"
-                      className="p-4 border rounded-lg"
+                      className="p-4 border rounded-lg w-full"
                       readOnly
                     />
                   </div>
@@ -94,7 +94,7 @@ export default function Myprofile() {
                     <label className="text-[#22222280] pb-2.5">Last Name</label>
                     <Field
                       name="last_name"
-                      className="p-4 border rounded-lg"
+                      className="p-4 border rounded-lg w-full"
                       readOnly
                     />
                   </div>

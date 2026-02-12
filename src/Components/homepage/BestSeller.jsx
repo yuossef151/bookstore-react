@@ -18,9 +18,9 @@ export default function BestSeller() {
   return (
     <>
       <div className="bg-[#3B2F4A] py-30">
-        <div className="text-white  px-126 flex flex-col items-center text-center pb-10">
-          <h3 className="text-[26px] font-bold pb-2">Best Seller</h3>
-          <p>
+        <div className="text-white  lg:px-126 px-5 flex flex-col items-center text-center pb-10">
+          <h3 className="lg:text-[26px] text-[20px] font-bold pb-2">Best Seller</h3>
+          <p className="lg:text-[16px]">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et
             ultricies est. Aliquam in justo varius, sagittis neque ut, malesuada
             leo.
@@ -29,9 +29,29 @@ export default function BestSeller() {
         <Swiper
           slidesPerView={6}
           spaceBetween={30}
+          breakpoints={{
+            0: {
+              slidesPerView: 1,
+            },
+            392: {
+              slidesPerView: 2,
+            },
+            640: {
+              slidesPerView: 2,
+            },
+            768: {
+              slidesPerView: 3,
+            },
+            1024: {
+              slidesPerView: 4,
+            },
+            1280: {
+              slidesPerView: 6,
+            },
+          }}
           loop={true}
           autoplay={{
-            delay: 0, 
+            delay: 0,
             disableOnInteraction: false,
           }}
           navigation={true}
@@ -41,7 +61,12 @@ export default function BestSeller() {
         >
           {books.map((book) => (
             <SwiperSlide className="rounded-2xl overflow-hidden ">
-              <img className="rounded-2xl" src={`./public/${book}.png`} alt={book} loading="lazy" />
+              <img
+                className="rounded-2xl"
+                src={`./public/${book}.png`}
+                alt={book}
+                loading="lazy"
+              />
             </SwiperSlide>
           ))}
         </Swiper>

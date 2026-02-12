@@ -1,16 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 
 export default function Log() {
   const { user, logout } = useContext(AuthContext);
   console.log(user);
+  const [prof ,setprof] =useState(false)
 
   return (
     <>
       <div className="">
         {user ? (
-          <div className="flex gap-4">
+          <div onClick={()=>{
+            setprof((prev) => !prev);
+          }} className="flex gap-4">
             <div className="dropdown">
               <div
                 tabIndex={0}
@@ -26,7 +29,7 @@ export default function Log() {
                       alt=""
                     />
                   </div>
-                  <div>
+                  <div className="user">
                     <p className="text-start text-[16px]">
                       {user.user.first_name} {user.user.last_name}
                     </p>
@@ -36,7 +39,7 @@ export default function Log() {
                   </div>
                 </div>
 
-                <svg
+                <svg className="user"
                   xmlns="http://www.w3.org/2000/svg"
                   width={24}
                   height={24}
@@ -54,7 +57,7 @@ export default function Log() {
               </div>
               <ul
                 tabIndex="-1"
-                className="menu  dropdown-content mt-5  rounded-box z-1 w-full bg-white text-black flex flex-col gap-4"
+                className={`menu  dropdown-content mt-5  rounded-box z-1 lg:w-full w-40 md:w-full -left-20 lg:left-0 md:left-0 bg-white text-black flex flex-col gap-4  ${prof?"istrue":"isfalse"}`}
               >
                 <li className="">
                   <div className="flex py-3">

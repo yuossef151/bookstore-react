@@ -31,10 +31,10 @@ export default function NowPassword({ next }) {
   });
   return (
     <>
-      <div className="flex flex-col justify-center items-center pt-15 pb-96.5 bg-[#F5F5F5]">
+      <div className="flex flex-col justify-center items-center pt-15 lg:pb-96.5 pb-15 bg-[#F5F5F5]">
         <p className="text-[#D9176C] text-[20px] pb-4">Create new password!</p>
         <h3 className=" text-[#22222280]">Create a strong password</h3>
-        <h3 className="pb-10 text-[#22222280]">
+        <h3 className="pb-10 text-[#22222280] lg:px-0 px-4 text-center">
           Your new password must be different from previous one
         </h3>
         <Formik
@@ -45,7 +45,7 @@ export default function NowPassword({ next }) {
           }}
           validationSchema={registerschema}
         >
-          <Form className="w-140  ">
+          <Form className="lg:w-140 w-full px-5 md:px-40 lg:px-0">
             <div className="flex gap-6 my-6"></div>
 
             <div className="flex flex-col my-6">

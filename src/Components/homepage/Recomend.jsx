@@ -22,15 +22,15 @@ export default function Recomend() {
 
   return (
     <>
-      <div className="py-30 px-15 bg-[#F5F5F5]">
-        <p className="pb-10 text-[26px] font-bold">Recomended For You</p>
-        <div className="flex gap-6">
+      <div className="lg:py-30 py-3 px-5 md:py-15 lg:px-15 bg-[#F5F5F5]">
+        <p className="pb-10 lg:text-[26px] text-[20px] font-bold">Recomended For You</p>
+        <div className="flex flex-col lg:flex-row gap-6 w-full ">
           {book.map((el, index) => (
             <div
               key={el.id || index}
-              className="flex p-10 bg-white gap-9.75 w-1/2 "
+              className="flex flex-col md:flex-row lg:flex-row  lg:p-10 p-4 bg-white gap-9.75 lg:w-1/2 "
             >
-              <img className=" " src={bookimg[index]} alt="" />
+              <img className=" h-80" src={bookimg[index]} alt="" />
 
               <div>
                 <h3 className="text-[18px] font-bold">{el.bookName}</h3>
@@ -39,7 +39,7 @@ export default function Recomend() {
                   <span className="text-black font-medium">{el.author}</span>
                 </p>
                 <p className="text-[#22222280]">{el.description}</p>
-                <div className="flex justify-between items-center pt-6">
+                <div className="flex  justify-between items-center pt-6 gap-3 lg:gap-0">
                   <div>
                     <Star rate={el.rate} countReview={el.countReview} />
                     <p>{el.rate}</p>
@@ -60,7 +60,7 @@ export default function Recomend() {
                 </div>
                 <div className="flex gap-2 pt-4">
                   <button className="flex grow-4 bg-[#D9176C] py-3.25 justify-center rounded-lg items-center text-white">
-                    Add To Cart{" "}
+                    Add To Cart
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width={20}

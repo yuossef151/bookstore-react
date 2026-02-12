@@ -36,7 +36,7 @@ console.log(localStorage.getItem("Email") || "", );
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#f5f5f5]">
-      <div className="w-105 rounded-2xl pt-15 text-center pb-138">
+      <div className="lg:w-105 w-full rounded-2xl pt-15 text-center lg:pb-138 pb-10">
         <h2 className="text-[#D9176C] text-xl font-semibold mb-2">
           Reset your password!
         </h2>
@@ -58,8 +58,8 @@ console.log(localStorage.getItem("Email") || "", );
           onSubmit={handleSubmit}
         >
           {({ setFieldValue, values }) => (
-            <Form className="flex flex-col items-center gap-8">
-              <div className="flex gap-4">
+            <Form className="flex flex-col items-center gap-8 w-full px-5 md:px-40 lg:px-0">
+              <div className="flex gap-4 w-full  justify-center">
                 {[0, 1, 2, 3, 4, 5].map((_, index) => (
                   <Field
                     key={index}
@@ -84,7 +84,7 @@ console.log(localStorage.getItem("Email") || "", );
                         inputsRef.current[index - 1]?.focus();
                       }
                     }}
-                    className="otp-field border border-[#2222224D] w-15 h-15 text-center text-xl rounded-xl"
+                    className="otp-field border border-[#2222224D] lg:w-15 lg:h-15 md:w-15 md:h-15 w-11 h-11 text-center text-xl rounded-xl"
                   />
                 ))}
               </div>
