@@ -5,9 +5,11 @@ import Books from "../page/books/Books";
 import About from "../page/About/About";
 import Login from "../page/login/Login";
 import Regester from "../page/sign/Regester";
-import GuestRoute from "../Components/GuestRoute";
+import { GuestRoute, ProtectedRoute } from "../Components/GuestRoute";
 import Profile from "../page/profile/Profile";
 import Password from "../page/Password/Password";
+import Cart from "../page/cart/Cart";
+
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,13 @@ const router = createBrowserRouter([
         path: "Password",
         element: <Password />,
       },
+      {
+        path: "cart",
+        element: (
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        ),      },
       {
         path: "login",
         element: (

@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Star from "../homepage/Star";
+import { CartContext } from "../cartpage/CartContext";
 
-export default function Bookdata({ page, settpage, book, pages, booktotal }) {
-  console.log(book);
-  console.log(page);
+export default function Bookdata({
+  page,
+  settpage,
+  book,
+  pages,
+  booktotal,
+  cart,
+}) {
   const linth = Math.ceil(pages.total / pages.per_page);
-  console.log(linth);
-  console.log(booktotal);
   const mypages = Math.ceil(booktotal / pages.per_page);
+  const { addToCart , Cart, setCart} = useContext(CartContext);
+
   return (
     <>
       <div className="pt-15 pb-24 border-s-2 border-[#22222233]">
@@ -106,7 +112,12 @@ export default function Bookdata({ page, settpage, book, pages, booktotal }) {
                           </div>
                         </div>
                         <div className="flex gap-4">
-                          <button className="flex  bg-[#D9176C] py-3.25 px-7.5 justify-center rounded-lg items-center text-white">
+                          <button
+                            onClick={() => {
+                              addToCart(el);
+                            }}
+                            className="flex  bg-[#D9176C] py-3.25 px-7.5 justify-center rounded-lg items-center text-white"
+                          >
                             Add To Cart
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -229,7 +240,10 @@ export default function Bookdata({ page, settpage, book, pages, booktotal }) {
                 {page - 1}
               </button>
             )}
-            <button className="w-10 h-10 rounded-lg text-white bg-[#D9176C] me-4"> {page}</button>
+            <button className="w-10 h-10 rounded-lg text-white bg-[#D9176C] me-4">
+              {" "}
+              {page}
+            </button>
 
             {page + 1 > mypages ? (
               ""

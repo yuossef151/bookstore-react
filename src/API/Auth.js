@@ -45,21 +45,21 @@ export const updateprofile = (data) => {
   });
 };
 
-// export const getbooksAPI = (page) => {
-//   return api.get(`/book?page=${page}`);
-// }; 
-
-// export const getbooksAPI = (page, config = {}) => {
-//   return axios.get(`/book?page=${page}`, {
-//     params: { page, ...config.params },
-//   });
-// };
-
 export const getbooksAPI = (page, config = {}) => {
-  return api.get('/book', {
+  return api.get("/book", {
     params: { page, ...config.params },
   });
 };
 export const getcategoryAPI = () => {
   return api.get("/category");
+};
+export const getcartAPI = () => {
+  const token = localStorage.getItem("token");
+console.log("TOKEN FROM LS:", token);
+
+  return api.get("/cart",{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
