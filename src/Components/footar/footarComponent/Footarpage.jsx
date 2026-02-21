@@ -86,6 +86,6 @@ export default function Footarpage() {
           </div>
         </div>
       </div>
-    </>
+    </> 
   );
 }

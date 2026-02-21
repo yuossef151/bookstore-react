@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Star from "../homepage/Star";
 import { CartContext } from "../cartpage/CartContext";
+import { WishlistContext } from "../Wishlistpage/WishlistContext";
 
 export default function Bookdata({
   page,
@@ -12,7 +13,9 @@ export default function Bookdata({
 }) {
   const linth = Math.ceil(pages.total / pages.per_page);
   const mypages = Math.ceil(booktotal / pages.per_page);
-  const { addToCart , Cart, setCart} = useContext(CartContext);
+  const { addToCart, Cart , } = useContext(CartContext);
+  const { wishlist, addToWishlist, setWishlist, isInWishlist } =
+    useContext(WishlistContext);
 
   return (
     <>
@@ -70,7 +73,7 @@ export default function Bookdata({
                 >
                   <img
                     className=" h-63"
-                    src={`/book-${index + 1}.png`}
+                    src={`/book-4.png`}
                     alt=""
                   />
 
@@ -163,15 +166,25 @@ export default function Bookdata({
                               ></path>
                             </svg>
                           </button>
-                          <button className="flex  py-3.25 px-3.5 justify-center items-center rounded-lg border border-[#D9176C] text-[#D9176C]">
+                          <button
+                            onClick={() => {
+                              console.log(el.bookId);
+                              addToWishlist(el);
+                              console.log(wishlist);
+                            }}
+                            className="flex  py-3.25 px-3.5 justify-center items-center rounded-lg border border-[#D9176C] text-[#D9176C] "
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width={20}
                               height={20}
                               viewBox="0 0 24 24"
+                              className=""
                             >
                               <path
-                                fill="none"
+                                fill={
+                                  isInWishlist(el.bookId) ? "#D9176C" : "none"
+                                }
                                 stroke="currentColor"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"

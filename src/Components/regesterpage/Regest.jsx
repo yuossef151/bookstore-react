@@ -3,19 +3,24 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { registerApi } from "../../API/Auth";
+import { useMutation } from "@tanstack/react-query";
+import { values } from "lodash";
 
 export default function Regest() {
   const navigate = useNavigate();
-  // registerApi
-  const handleSubmit = async (values) => {
-    try {
-      const form = await registerApi( values);
-      console.log(values.data);
 
-      navigate("/");
-    } catch (error) {
-      console.log(error.response?.data || error.message);
-    }
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationFn: (values) => registerApi(values),
+    onSuccess: (form) => {
+      const user = form.data.data;
+      navigate("/login");
+    },
+    onError: (error) => {
+      console.log("Login Error:", error);
+    },
+  });
+  const handleSubmit = async (values) => {
+    mutate(values);
   };
   const registerschema = Yup.object({
     first_name: Yup.string().required(),

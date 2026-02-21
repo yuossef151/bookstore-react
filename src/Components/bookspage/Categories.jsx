@@ -1,5 +1,8 @@
-export default function Categories({ category }) {
-//   console.log(category);
+export default function Categories({
+  category,
+  handleCategoryChange,
+  selectedCategories,
+}) {
   return (
     <>
       <div className="w-100  h-full pt-15 pb-24 ps-10 pe-5">
@@ -27,10 +30,20 @@ export default function Categories({ category }) {
             {category.map((el, endix) => {
               return (
                 <div className="flex gap-1" key={endix}>
-                    <input id={el.categoryName} type="checkbox" />
-                  <label className="flex justify-between w-full" htmlFor={el.categoryName}>
+                  <input
+                    id={el.categoryName}
+                    type="checkbox"
+                    checked={selectedCategories.includes(el.categoryName)}
+                    onChange={() => handleCategoryChange(el.categoryName)}
+                  />
+                  <label
+                    className="flex justify-between w-full"
+                    htmlFor={el.categoryName}
+                  >
                     <p>{el.categoryName}</p>
-                    <p className="text-[14px] text-[#22222280]">({el.books_count})</p>
+                    <p className="text-[14px] text-[#22222280]">
+                      ({el.books_count})
+                    </p>
                   </label>
                 </div>
               );

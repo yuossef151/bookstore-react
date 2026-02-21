@@ -9,6 +9,7 @@ import { GuestRoute, ProtectedRoute } from "../Components/GuestRoute";
 import Profile from "../page/profile/Profile";
 import Password from "../page/Password/Password";
 import Cart from "../page/cart/Cart";
+import Wishlist from "../page/wishlist/Wishlist";
 
 
 const router = createBrowserRouter([
@@ -41,6 +42,13 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Cart />
+          </ProtectedRoute>
+        ),      },
+      {
+        path: "Wishlist",
+        element: (
+          <ProtectedRoute>
+            <Wishlist />
           </ProtectedRoute>
         ),      },
       {

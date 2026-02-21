@@ -1,64 +1,93 @@
 import { createContext, useState, useEffect } from "react";
-import { getcartAPI } from "../../API/Auth";
+import { addToCartAPI, getcartAPI, removeCartAPI, updateCartQuantityAPI } from "../../API/Auth";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [Cart, setCart] = useState(() => {
-    const stored = localStorage.getItem("cart");
-    return stored ? JSON.parse(stored) : { cart: [], total: 0 };
+  const [cart, setCart] = useState([]);
+
+  const queryClient = useQueryClient();
+
+  const { data: CartData, isLoading } = useQuery({
+    queryKey: ["cart"],
+    queryFn: async () => {
+      const res = await getcartAPI();
+      return res.data.data;
+    },
+    onSuccess: (data) => {
+      setCart(data.cart || []);
+    },
   });
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(Cart));
-  }, [Cart]);
 
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await getcartAPI();
-        setCart(response.data.data || { cart: [], total: 0 });
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCart();
-  }, []);
+    if (CartData?.cart) setCart(CartData.cart);
+  }, [CartData]);
 
-  const addToCart = (item) => {
-    setCart((prev) => {
-      if (!prev?.cart) {
-        return { cart: [{ ...item, quantity: 1 }] };
-      }
+  const addMutation = useMutation({
+    mutationFn: (bookId) => addToCartAPI(bookId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cart"]);
+    },
+    onError: (err) => console.log(err.response?.data),
+  });
 
-      const index = prev.cart.findIndex((el) => el.bookName === item.bookName);
-      if (index !== -1) {
-        const newCart = [...prev.cart];
-        newCart[index].quantity += 1;
-        return { ...prev, cart: newCart };
-      } else {
-        return { ...prev, cart: [...prev.cart, { ...item, quantity: 1 }] };
-      }
-    });
+  const addToCart = (book) => {
+    const currentItem = CartData.cart.find(
+      (item) => item.bookDetails.bookId === book.bookId,
+    );
+    const currentQty = currentItem?.qty || 0;
+
+    if (currentQty >= 10) {
+      alert("You cannot add more than 10 units of this book!");
+      console.log(CartData.cart);
+
+      return;
+    }
+
+    addMutation.mutate(book);
   };
 
-  const removeFromCart = (index) => {
-    setCart((prev) => {
-      const newCart = [...(prev.cart || [])];
-      newCart.splice(index, 1);
-      return {
-        ...prev,
-        cart: newCart,
-        total: Math.max((prev.total || 1) - 1, 0),
-      };
-    });
+  const updateQuantityMutation = useMutation({
+    mutationFn: ({ bookId, qty }) => updateCartQuantityAPI(bookId, qty),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cart"]);
+    },
+
+    onError: (err) => {
+      console.log("Error message:", err.message);
+    },
+  });
+
+  const removeMutation = useMutation({
+    mutationFn: (cartId) => removeCartAPI(cartId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cart"]);
+    },
+  });
+
+  const removeFromCart = (item) => {
+    if (!item?.cartId) {
+      console.warn("Cannot remove: bookId not found", item);
+      return;
+    }
+    removeMutation.mutate(item.cartId);
   };
 
   return (
     <CartContext.Provider
-      value={{ Cart, setCart, addToCart, removeFromCart, loading }}
+      value={{
+        Cart: cart,
+        setCart,
+        tax: CartData?.tax,
+        subTotal: CartData?.subTotal,
+        total: CartData?.total,
+        removeFromCart,
+        updateQuantityMutation,
+        isLoading,
+        addToCart,
+      }}
     >
       {children}
     </CartContext.Provider>

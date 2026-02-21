@@ -1,9 +1,9 @@
-import React from 'react'
+import Wishlistdata from "../../Components/Wishlistpage/Wishlistdata";
 
 export default function Wishlist() {
   return (
-    <div>
-      
-    </div>
+    <>
+      <Wishlistdata />
+    </>
   )
 }

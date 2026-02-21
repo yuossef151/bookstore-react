@@ -5,22 +5,37 @@ import * as Yup from "yup";
 import { loginApi } from "../../API/Auth";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
+import { useMutation } from "@tanstack/react-query";
 export default function Loginpage() {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
-  const handleSubmit = async (values) => {
-    try {
-      const form = await loginApi(values);
-      console.log(form.data.data);
-      console.log(form.data.data.token);
-      localStorage.setItem("token",(form.data.data.token));
-      login(form.data.data);
+  const {  mutate, isPending, isError, error} = useMutation({
+    mutationFn: (values) => loginApi(values),
+    onSuccess: (form) => {
+      const user = form.data.data;
+      localStorage.setItem("token", user.token);
+      login(user);
       navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    onError: (error) => {
+      console.log("Login Error:", error);
+    },
+  });
+
+  const handleSubmit = (values) => {
+  mutate(values);
+};
+  // const handleSubmit = async (values) => {
+  //   try {
+  //     const form = await loginApi(values);
+  //     localStorage.setItem("token", form.data.data.token);
+  //     login(form.data.data);
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const schema = Yup.object({
     email: Yup.string().required().email(),

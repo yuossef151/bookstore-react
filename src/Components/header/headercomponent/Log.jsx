@@ -3,41 +3,78 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { getcartAPI } from "../../../API/Auth";
 import { CartContext } from "../../cartpage/CartContext";
+import { WishlistContext } from "../../Wishlistpage/WishlistContext";
 
 export default function Log() {
   const { user, logout } = useContext(AuthContext);
-  console.log(user);
   const [prof, setprof] = useState(false);
   const { Cart } = useContext(CartContext);
+  console.log(Cart);
+
+  const { wishlist, setWishlist } = useContext(WishlistContext);
 
   return (
     <>
       <div className="">
         {user ? (
           <div className="flex items-center gap-7">
-            <div className="relative">
-              <NavLink
-                to="cart"
-                className={({ isActive }) =>
-                  ` ${isActive ? "text-[#EAA451]" : "text-white"}`
-                }
-              >
-                <div className="w-4.5 h-4.5 bg-[#D9176C] border border-white flex items-center justify-center rounded-3xl absolute bottom-4 left-3">
-                  <span className="text-[10px] text-white">{Cart?.cart?.length ?? 0}</span>
-                </div>
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={24}
-                  height={24}
-                  viewBox="0 0 56 56"
+            <div className="flex gap-4">
+              <div className="relative">
+                <NavLink
+                  to="cart"
+                  className={({ isActive }) =>
+                    ` ${isActive ? "text-[#EAA451]" : "text-white"}`
+                  }
                 >
-                  <path
-                    fill="currentColor"
-                    d="M20.008 39.649H47.36c.913 0 1.71-.75 1.71-1.758s-.797-1.758-1.71-1.758H20.406c-1.336 0-2.156-.938-2.367-2.367l-.375-2.461h29.742c3.422 0 5.18-2.11 5.672-5.461l1.875-12.399a7 7 0 0 0 .094-.89c0-1.125-.844-1.899-2.133-1.899H14.641l-.446-2.976c-.234-1.805-.89-2.72-3.28-2.72H2.687c-.937 0-1.734.822-1.734 1.76c0 .96.797 1.781 1.735 1.781h7.921l3.75 25.734c.493 3.328 2.25 5.414 5.649 5.414m31.054-25.454L49.4 25.422c-.188 1.453-.961 2.344-2.344 2.344l-29.906.023l-1.993-13.594ZM21.86 51.04a3.766 3.766 0 0 0 3.797-3.797a3.78 3.78 0 0 0-3.797-3.797c-2.132 0-3.82 1.688-3.82 3.797c0 2.133 1.688 3.797 3.82 3.797m21.914 0c2.133 0 3.82-1.664 3.82-3.797c0-2.11-1.687-3.797-3.82-3.797c-2.109 0-3.82 1.688-3.82 3.797c0 2.133 1.711 3.797 3.82 3.797"
-                  ></path>
-                </svg>
-              </NavLink>
+                  <div className="w-4.5 h-4.5 bg-[#D9176C] border border-white flex items-center justify-center rounded-3xl absolute bottom-4 left-3">
+                    <span className="text-[10px] text-white">
+                      {Cart?.length ?? 0}
+                    </span>
+                  </div>
+
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={24}
+                    height={24}
+                    viewBox="0 0 56 56"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M20.008 39.649H47.36c.913 0 1.71-.75 1.71-1.758s-.797-1.758-1.71-1.758H20.406c-1.336 0-2.156-.938-2.367-2.367l-.375-2.461h29.742c3.422 0 5.18-2.11 5.672-5.461l1.875-12.399a7 7 0 0 0 .094-.89c0-1.125-.844-1.899-2.133-1.899H14.641l-.446-2.976c-.234-1.805-.89-2.72-3.28-2.72H2.687c-.937 0-1.734.822-1.734 1.76c0 .96.797 1.781 1.735 1.781h7.921l3.75 25.734c.493 3.328 2.25 5.414 5.649 5.414m31.054-25.454L49.4 25.422c-.188 1.453-.961 2.344-2.344 2.344l-29.906.023l-1.993-13.594ZM21.86 51.04a3.766 3.766 0 0 0 3.797-3.797a3.78 3.78 0 0 0-3.797-3.797c-2.132 0-3.82 1.688-3.82 3.797c0 2.133 1.688 3.797 3.82 3.797m21.914 0c2.133 0 3.82-1.664 3.82-3.797c0-2.11-1.687-3.797-3.82-3.797c-2.109 0-3.82 1.688-3.82 3.797c0 2.133 1.711 3.797 3.82 3.797"
+                    ></path>
+                  </svg>
+                </NavLink>
+              </div>
+              <div className="relative">
+                <NavLink
+                  to="Wishlist"
+                  className={({ isActive }) =>
+                    ` ${isActive ? "text-[#EAA451]" : "text-white"}`
+                  }
+                >
+                  <div className="w-4.5 h-4.5 bg-[#D9176C] border border-white flex items-center justify-center rounded-3xl absolute bottom-4 left-3">
+                    <span className="text-[10px] text-white">
+                      {wishlist?.length ?? 0}
+                    </span>
+                  </div>
+
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={24}
+                    height={24}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M7.75 3.5C5.127 3.5 3 5.76 3 8.547C3 14.125 12 20.5 12 20.5s9-6.375 9-11.953C21 5.094 18.873 3.5 16.25 3.5c-1.86 0-3.47 1.136-4.25 2.79c-.78-1.654-2.39-2.79-4.25-2.79"
+                    ></path>
+                  </svg>
+                </NavLink>
+              </div>
             </div>
             <div
               onClick={() => {
@@ -188,7 +225,14 @@ export default function Log() {
                           d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h7v2H5v14h7v2zm11-4l-1.375-1.45l2.55-2.55H9v-2h8.175l-2.55-2.55L16 7l5 5z"
                         ></path>
                       </svg>
-                      <Link onClick={logout}>Log Out</Link>
+                      <Link
+                        onClick={() => {
+                          logout();
+                          
+                        }}
+                      >
+                        Log Out
+                      </Link>
                     </div>
                   </li>
                 </ul>

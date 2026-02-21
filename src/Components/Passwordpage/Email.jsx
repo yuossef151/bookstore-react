@@ -11,7 +11,8 @@ export default function Email({ next }) {
       localStorage.setItem("Email", values.email);
       next();
     } catch (error) {
-      console.log(error);
+      console.log("not fund is Email");
+      alert("not fund is Email")
     } finally {
       setSubmitting(false);
     }

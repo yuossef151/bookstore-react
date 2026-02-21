@@ -1,17 +1,13 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  // تحميل الداتا أول ما التطبيق يفتح
-  useEffect(() => {
+  // اقرأ البيانات فورًا عند init state
+  const [user, setUser] = useState(() => {
     const stored = localStorage.getItem("contactData");
-    if (stored) {
-      setUser(JSON.parse(stored));
-    }
-  }, []);
+    return stored ? JSON.parse(stored) : null;
+  });
 
   const login = (data) => {
     localStorage.setItem("contactData", JSON.stringify(data));
@@ -20,6 +16,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("contactData");
+    localStorage.removeItem("token"); 
     setUser(null);
   };
 

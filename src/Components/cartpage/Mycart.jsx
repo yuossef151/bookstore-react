@@ -3,38 +3,51 @@ import { CartContext } from "./CartContext";
 import { FaPlusCircle, FaMinusCircle, FaTrashAlt } from "react-icons/fa";
 
 export default function Mycart() {
-  const { Cart, setCart } = useContext(CartContext);
+  const {
+    Cart,
+    setCart,
+    addToCart,
+    removeFromCart,
+    isLoading,
+    updateQuantityMutation,
+  } = useContext(CartContext);
   console.log(Cart);
-  const mycart = Cart.cart;
+  const mycart = Cart;
 
-  const increaseQty = (index) => {
-    setCart((prev) => {
-      const newCart = [...prev.cart];
-      newCart[index].quantity = (newCart[index].quantity || 1) + 1;
-      return { ...prev, cart: newCart };
+  const increaseQty = (item) => {
+    const updatedCart = mycart.map((el) =>
+      el.bookDetails.bookId === item.bookDetails.bookId
+        ? { ...el, qty: el.qty + 1 }
+        : el,
+    );
+    setCart(updatedCart);
+    const newQty = item.qty + 1;
+
+    updateQuantityMutation.mutate({
+      bookId: item.bookDetails.bookId,
+      qty: newQty,
     });
   };
 
-  // تقليل الكمية
-  const decreaseQty = (index) => {
-    setCart((prev) => {
-      const newCart = [...prev.cart];
-      const currentQty = newCart[index].quantity || 1;
-      if (currentQty > 1) {
-        newCart[index].quantity = currentQty - 1;
-        return { ...prev, cart: newCart };
-      }
-      return prev; // لو الكمية 1، ما نغير شيء
-    });
+  const decreaseQty = (item) => {
+    if (item.qty > 1) {
+      const updatedCart = mycart.map((el) =>
+        el.bookDetails.bookId === item.bookDetails.bookId
+          ? { ...el, qty: el.qty - 1 }
+          : el,
+      );
+      setCart(updatedCart);
+    const newQty = item.qty - 1;
+
+      updateQuantityMutation.mutate({
+        bookId: item.bookDetails.bookId,
+        qty: newQty,
+      });
+    }
   };
 
-  // حذف عنصر
-  const removeItem = (index) => {
-    setCart((prev) => {
-      const newCart = [...prev.cart];
-      newCart.splice(index, 1);
-      return { ...prev, cart: newCart };
-    });
+  const removeItem = (item) => {
+    removeFromCart(item);
   };
 
   return (
@@ -80,7 +93,6 @@ export default function Mycart() {
                 className="bg-white "
                 style={{ borderRadius: "8px" }}
               >
-                {/* Item */}
                 <td className="flex gap-4 items-start py-6 px-6 max-w-lg">
                   <img
                     src={el.image || `/book-${index + 1}.png`}
@@ -88,12 +100,12 @@ export default function Mycart() {
                     className="w-42.5 h-62.5 object-cover rounded"
                   />
                   <div className="flex flex-col">
-                    <h3 className="text-lg font-semibold">{el.bookName}</h3>
+                    <h3 className="text-lg font-semibold">{el.bookDetails.bookName}</h3>
                     <p className="text-gray-600 text-sm">
-                      Author: <span className="font-medium">{el.author}</span>
+                      Author: <span className="font-medium">{el.bookDetails.author}</span>
                     </p>
                     <p className="text-gray-500 text-sm mt-1 line-clamp-3">
-                      {el.description}
+                      {el.bookDetails.description}
                     </p>
                     <p className="text-xs text-gray-400 mt-10">
                       ASIN: {el.asin || "B09TWSRMCB"}
@@ -101,24 +113,19 @@ export default function Mycart() {
                   </div>
                 </td>
 
-                {/* Quantity */}
                 <td className="text-center py-6 px-6">
                   <div className="inline-flex items-center gap-3 text-pink-600">
                     <button
                       onClick={() => {
-                        el.quantity == 1
-                          ? removeItem(index)
-                          : decreaseQty(index);
+                        el.qty == 1 ? removeItem(el) : decreaseQty(el);
                       }}
                       aria-label="Decrease quantity"
                     >
                       <FaMinusCircle size={20} />
                     </button>
-                    <span className="text-lg font-semibold">
-                      {el.quantity || 1}
-                    </span>
+                    <span className="text-lg font-semibold">{el.qty || 1}</span>
                     <button
-                      onClick={() => increaseQty(index)}
+                      onClick={() => increaseQty(el)}
                       aria-label="Increase quantity"
                     >
                       <FaPlusCircle size={20} />
@@ -126,19 +133,17 @@ export default function Mycart() {
                   </div>
                 </td>
 
-                {/* Price */}
                 <td className="text-right py-6 px-6 font-semibold">
-                  ${el.final_price.toFixed(2)}
+                  ${el.bookDetails.final_price.toFixed(2)}
                 </td>
 
-                {/* Total Price */}
                 <td className="text-right py-6 px-6 font-semibold">
-                  ${(el.final_price * (el.quantity || 1)).toFixed(2)}
+                  ${(el.bookDetails.final_price * el.qty).toFixed(2)}
                 </td>
 
                 <td className="text-center py-6 px-6 text-pink-600">
                   <button
-                    onClick={() => removeItem(index)}
+                    onClick={() => removeItem(el)}
                     aria-label="Remove item"
                   >
                     <FaTrashAlt size={18} />

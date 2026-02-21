@@ -1,31 +1,38 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getbooks } from "../../API/Auth";
 import Star from "./Star";
+import { CartContext } from "../cartpage/CartContext";
+import { WishlistContext } from "../Wishlistpage/WishlistContext";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Recomend() {
-  const [book, setBook] = useState([]);
-  useEffect(() => {
-    const fetchBooks = async () => {
+  const { addToCart } = useContext(CartContext);
+  const { addToWishlist, isInWishlist } = useContext(WishlistContext);
+  const token = localStorage.getItem("token");
+
+  const { data:bookData = [], isLoading, error } = useQuery({
+    queryKey: ["books"],
+    queryFn: async () => {
       try {
         const res = await getbooks();
-        setBook(res.data.data.recommended);
+      return res.data.data.recommended;
       } catch (error) {
         console.log(error);
       }
-    };
+    },
+  });
+  
 
-    fetchBooks();
-  }, []);
-  console.log(book);
   const bookimg = ["./public/book-1.png", "./public/book-5.png"];
-  console.log(bookimg[0]);
 
   return (
     <>
       <div className="lg:py-30 py-3 px-5 md:py-15 lg:px-15 bg-[#F5F5F5]">
-        <p className="pb-10 lg:text-[26px] text-[20px] font-bold">Recomended For You</p>
+        <p className="pb-10 lg:text-[26px] text-[20px] font-bold">
+          Recomended For You
+        </p>
         <div className="flex flex-col lg:flex-row gap-6 w-full ">
-          {book.map((el, index) => (
+          {bookData?.map((el, index) => (
             <div
               key={el.id || index}
               className="flex flex-col md:flex-row lg:flex-row  lg:p-10 p-4 bg-white gap-9.75 lg:w-1/2 "
@@ -59,7 +66,12 @@ export default function Recomend() {
                   </div>
                 </div>
                 <div className="flex gap-2 pt-4">
-                  <button className="flex grow-4 bg-[#D9176C] py-3.25 justify-center rounded-lg items-center text-white">
+                  <button
+                    onClick={() => {
+                      !token ? alert("go login first") : addToCart(el);
+                    }}
+                    className="flex grow-4 bg-[#D9176C] py-3.25 justify-center rounded-lg items-center text-white"
+                  >
                     Add To Cart
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -105,7 +117,12 @@ export default function Recomend() {
                       ></path>
                     </svg>
                   </button>
-                  <button className="flex grow py-3.25 justify-center rounded-lg border border-[#D9176C] text-[#D9176C]">
+                  <button
+                    onClick={() => {
+                      !token ? alert("go login first") : addToWishlist(el);
+                    }}
+                    className="flex grow py-3.25 justify-center rounded-lg border border-[#D9176C] text-[#D9176C]"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width={20}
@@ -113,7 +130,7 @@ export default function Recomend() {
                       viewBox="0 0 24 24"
                     >
                       <path
-                        fill="none"
+                        fill={isInWishlist(el.bookId) ? "#D9176C" : "none"}
                         stroke="currentColor"
                         strokeLinecap="round"
                         strokeLinejoin="round"

@@ -2,15 +2,22 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useRef } from "react";
 import { message } from "../../API/Auth";
 import * as Yup from "yup";
+import { useMutation } from "@tanstack/react-query";
 export default function Message() {
   const textareaRef = useRef(null);
-  const handleSubmit = async (values) => {
-    try {
-      const form = await message(values);
-      console.log(form.data.data);
-    } catch (error) {
-      console.log(error);
-    }
+
+  const { mutate, isPending, isSuccess, isError, error } = useMutation({
+    mutationFn: (values) => message(values),
+    onSuccess: (data) => {
+      console.log(data.data);
+    },
+    onError: (error) => {
+      console.log("Error:", error);
+    },
+  });
+
+  const handleSubmit = (values) => {
+    mutate(values);
   };
 
   const meesageschema = Yup.object({
@@ -52,11 +59,21 @@ export default function Message() {
           </p>
 
           <Formik
-          className="w-full"
-            initialValues={{ name: "", email: "", message: "" }}
+            className="w-full"
+            initialValues={{
+              name: "",
+              email: "",
+              message: "",
+              subject: "old books",
+            }}
             validationSchema={meesageschema}
-            onSubmit={(values) => {
+            onSubmit={(values, { resetForm }) => {
               handleSubmit(values);
+              mutate(values, {
+                onSuccess: () => {
+                  resetForm();
+                },
+              });
             }}
           >
             <Form className="flex flex-col items-center pt-15 w-full">

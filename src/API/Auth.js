@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "./axios";
 
 export const registerApi = (data) => {
@@ -55,11 +54,87 @@ export const getcategoryAPI = () => {
 };
 export const getcartAPI = () => {
   const token = localStorage.getItem("token");
-console.log("TOKEN FROM LS:", token);
 
-  return api.get("/cart",{
+  return api.get("/cart", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 };
+export const getWishlistAPI = () => {
+  const token = localStorage.getItem("token");
+  return api.get("/wishlist", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const addToWishlistAPI = (bookId) => {
+  const token = localStorage.getItem("token");
+
+  return api.post(
+    `/wishlist/store/${bookId.bookId}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+};
+
+export const removeWishlistAPI = (bookId) => {
+  const token = localStorage.getItem("token");
+
+  return api.delete(`/wishlist/destroy/${bookId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+
+
+export const addToCartAPI = (book) => {
+  const token = localStorage.getItem("token");
+
+  const formData = new FormData();
+  formData.append("qty", 1);
+
+  return api.post(
+    `/cart/store/${book.bookId}`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+
+
+export const updateCartQuantityAPI = (bookId, qty) => {
+  const token = localStorage.getItem("token");
+  const formData = new FormData();
+  formData.append("qty", qty);
+
+  return api.post(
+    `/cart/update/${bookId}`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+};
+
+
+export const removeCartAPI = (cartId) => {
+  const token = localStorage.getItem("token");
+
+  return api.delete(`/cart/destroy/${cartId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+

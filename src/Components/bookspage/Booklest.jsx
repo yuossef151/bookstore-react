@@ -1,65 +1,72 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import Bookdata from "./Bookdata";
 import Categories from "./Categories";
-import { getbooksAPI, getcartAPI, getcategoryAPI } from "../../API/Auth";
-import { filter } from "lodash";
+import { getbooksAPI, getcategoryAPI } from "../../API/Auth";
 import { CartContext } from "../cartpage/CartContext";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Booklest() {
-  const [books, setbooks] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [page, setpage] = useState(1);
-  const [pages, setpages] = useState([]);
-  const { cart, loading } = useContext(CartContext);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const handleCategoryChange = (categoryName) => {
+    setSelectedCategories((prev) =>
+      prev.includes(categoryName)
+        ? prev.filter((c) => c !== categoryName)
+        : [...prev, categoryName],
+        
+    );
 
+  };
   useEffect(() => {
-    const bookapi = async () => {
-      try {
-        const res = await getbooksAPI(page, {
-          params: {
-            filters: {
-              category_name: {
-                $in: "Petroleum Pump Operator",
-              },
-            },
-          },
-        });
-        setbooks(res.data.data.books);
-        setpages(res.data.data.pagination_links.meta);
-        console.log(res.data.data.pagination_links.meta);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const categoryapi = async () => {
-      try {
-        const res = await getcategoryAPI();
-        // console.log(res.data.data.items);
-        setCategories(res.data.data.items);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    bookapi();
-    categoryapi();
-  }, [page]);
+  console.log("Selected Categories updated:", selectedCategories);
+}, [selectedCategories]);
+  const { Cart } = useContext(CartContext);
+
+  const { data: bookData, isLoading } = useQuery({
+    queryKey: ["books", page, selectedCategories],
+    queryFn: async () => {
+      const filters =
+        selectedCategories.length > 0
+          ? { category_name: { $in: "Tax Examiner" } }
+          : {};
+
+      const res = await getbooksAPI(page, { params: { filters } });
+      return res.data.data;
+    },
+    keepPreviousData: true,
+  });
+
+  const { data: categoriesData } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await getcategoryAPI();
+      return res.data.data.items;
+    },
+  });
+
+  const books = bookData?.books || [];
+  const pages = bookData?.pagination_links?.meta || {};
+  const categories = categoriesData || [];
 
   const totalCount = categories.reduce((sum, cat) => {
     return sum + cat.books_count;
   }, 0);
 
-  console.log(totalCount);
   return (
     <>
       <div className="flex bg-[#F5F5F5] ">
-        <Categories category={categories} />
+        <Categories
+          category={categories}
+          handleCategoryChange={handleCategoryChange}
+          selectedCategories={selectedCategories}
+        />
         <div className="grow">
           <Bookdata
             page={page}
             pages={pages}
             settpage={setpage}
             book={books}
-            cart ={cart}
+            cart={Cart}
             booktotal={totalCount}
           />
         </div>
