@@ -37,7 +37,7 @@ export default function Mycart() {
           : el,
       );
       setCart(updatedCart);
-    const newQty = item.qty - 1;
+      const newQty = item.qty - 1;
 
       updateQuantityMutation.mutate({
         bookId: item.bookDetails.bookId,
@@ -61,13 +61,13 @@ export default function Mycart() {
         <div className="absolute w-full lg:h-30 h-25 inset-0 bg-[#00000099] flex items-center justify-center "></div>
       </div>
 
-      <div className="px-15 bg-[#F5F5F5]">
+      <div className="lg:px-15 bg-[#F5F5F5]">
         <table
-          className="w-full table-auto bg-[#F5F5F5] "
+          className="w-full md:table table-auto bg-[#F5F5F5] hidden  "
           style={{ borderCollapse: "separate", borderSpacing: "0 1rem" }}
         >
-          <thead>
-            <tr className="bg-[#F5F5F5]">
+          <thead className="mytable">
+            <tr className="bg-[#F5F5F5] mytr">
               <th className="py-4 px-6 text-left font-semibold text-gray-700">
                 Item
               </th>
@@ -100,11 +100,16 @@ export default function Mycart() {
                     className="w-42.5 h-62.5 object-cover rounded"
                   />
                   <div className="flex flex-col">
-                    <h3 className="text-lg font-semibold">{el.bookDetails.bookName}</h3>
+                    <h3 className="text-lg font-semibold">
+                      {el.bookDetails.bookName}
+                    </h3>
                     <p className="text-gray-600 text-sm">
-                      Author: <span className="font-medium">{el.bookDetails.author}</span>
+                      Author:{" "}
+                      <span className="font-medium">
+                        {el.bookDetails.author}
+                      </span>
                     </p>
-                    <p className="text-gray-500 text-sm mt-1 line-clamp-3">
+                    <p className="text-gray-500 text-sm mt-1 line-clamp-3 md:hidden lg:flex hidden">
                       {el.bookDetails.description}
                     </p>
                     <p className="text-xs text-gray-400 mt-10">
@@ -153,6 +158,72 @@ export default function Mycart() {
             ))}
           </tbody>
         </table>
+
+        <div className="md:hidden lg:hidden space-y-6 py-5 px-5">
+          {mycart.map((el, index) => (
+            <div
+              key={el.id || index}
+              className="bg-white rounded-lg p-4 shadow-sm"
+            >
+              <div className="flex gap-4">
+                <img
+                  src={el.image || `/book-${index + 1}.png`}
+                  alt={el.bookName}
+                  className="w-24 h-32 object-cover rounded"
+                />
+
+                <div className="flex flex-col justify-between flex-1">
+                  <div>
+                    <h3 className="font-semibold text-base">
+                      {el.bookDetails.bookName}
+                    </h3>
+
+                    <p className="text-sm text-gray-600">
+                      {el.bookDetails.author}
+                    </p>
+                    <p className="text-gray-500 text-xs mt-1 line-clamp-3">
+                      {el.bookDetails.description}
+                    </p>
+                  </div>
+
+                  <p className="text-pink-600 font-bold text-lg">
+                    ${el.bookDetails.final_price.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between mt-5">
+                <div className="inline-flex items-center gap-4 text-pink-600">
+                  <button
+                    onClick={() =>
+                      el.qty == 1 ? removeItem(el) : decreaseQty(el)
+                    }
+                  >
+                    <FaMinusCircle size={20} />
+                  </button>
+
+                  <span className="font-semibold text-lg">{el.qty}</span>
+
+                  <button onClick={() => increaseQty(el)}>
+                    <FaPlusCircle size={20} />
+                  </button>
+                </div>
+
+                <button
+                  onClick={() => removeItem(el)}
+                  className="text-pink-600"
+                >
+                  <FaTrashAlt size={18} />
+                </button>
+              </div>
+
+              <div className="border-t mt-4 pt-3 flex justify-between font-semibold">
+                <span>Total</span>
+                <span>${(el.bookDetails.final_price * el.qty).toFixed(2)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );

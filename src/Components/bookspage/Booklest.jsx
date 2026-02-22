@@ -54,13 +54,13 @@ export default function Booklest() {
 
   return (
     <>
-      <div className="flex bg-[#F5F5F5] ">
+      <div className="flex md:flex md:flex-col flex-col lg:flex-row bg-[#F5F5F5] ">
         <Categories
           category={categories}
           handleCategoryChange={handleCategoryChange}
           selectedCategories={selectedCategories}
         />
-        <div className="grow">
+        <div className="">
           <Bookdata
             page={page}
             pages={pages}

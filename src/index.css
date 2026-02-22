@@ -44,3 +44,22 @@
     }
 
 }
+
+@media (max-width: 393px) {
+    .close{
+        display: none;
+    }
+    .opn{
+        position: absolute;
+        left: 20px;
+        width: 90%;
+        z-index: 999;
+    }
+    .mytable{
+        overflow: hidden;
+    }
+    .mytr{
+        display: flex;
+        flex-direction: column;
+    }
+}
